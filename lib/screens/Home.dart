@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:note_takingapp/screens/Addnote.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -41,7 +44,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         drawer: Drawer(),
-        body: Container(),
+        body: BodyStream(),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.black87,
           child: Icon(Icons.add),
@@ -51,5 +54,30 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+}
+
+class BodyStream extends StatelessWidget {
+  const BodyStream({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+        stream: FirebaseFirestore.instance.collection('notes').snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return ListView(
+            children: snapshot.data!.docs.map((finalvalue) {
+              return ListTile(
+                title: Text((finalvalue['title']!= null)?finalvalue['title']:""),
+                subtitle: Text((finalvalue["Description"] != null)?finalvalue['Description']:""),
+              );
+            }).toList(),
+          );
+        });
   }
 }

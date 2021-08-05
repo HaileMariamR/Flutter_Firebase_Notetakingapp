@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/get_core.dart';
 import 'package:note_takingapp/appdatabase/Appdatabase.dart';
+import 'package:get/get.dart';
+import 'package:note_takingapp/screens/Home.dart';
 
 class AddNote extends StatelessWidget {
   const AddNote({Key? key}) : super(key: key);
@@ -104,6 +107,21 @@ class Body extends StatelessWidget {
               child: ElevatedButton(
             onPressed: () {
               AppDatabase().addNote(controller1.text, controller2.text);
+              Get.to(() => HomePage());
+              Get.snackbar(
+                "Added",
+                "Sucessfully added your note!",
+                icon: Icon(Icons.note, color: Colors.white),
+                snackPosition: SnackPosition.BOTTOM,
+                backgroundColor: Colors.green,
+                borderRadius: 10,
+                margin: EdgeInsets.all(15),
+                colorText: Colors.white,
+                duration: Duration(seconds: 2),
+                isDismissible: true,
+                dismissDirection: SnackDismissDirection.HORIZONTAL,
+                forwardAnimationCurve: Curves.easeOutBack,
+              );
             },
             child: Text("Add Note"),
           ))

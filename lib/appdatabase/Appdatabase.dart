@@ -7,7 +7,7 @@ import 'package:note_takingapp/appdatabase/Notemodel.dart';
 class AppDatabase {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-  Future<void> addNote(String? inputtitle, String? inputdescription) async {
+  void addNote(String? inputtitle, String? inputdescription)  {
     try {
       firebaseFirestore.collection("notes").add(Note(
             title: inputtitle,
