@@ -7,7 +7,7 @@ import 'package:note_takingapp/appdatabase/Notemodel.dart';
 class AppDatabase {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-  void addNote(String? inputtitle, String? inputdescription)  {
+  void addNote(String? inputtitle, String? inputdescription) {
     try {
       firebaseFirestore.collection("notes").add(Note(
             title: inputtitle,
@@ -16,5 +16,11 @@ class AppDatabase {
     } catch (e) {
       print(e);
     }
+  }
+
+  void deletenote(String id) {
+    try {
+      firebaseFirestore.collection('notes').doc('${id}').delete();
+    } catch (e) {}
   }
 }

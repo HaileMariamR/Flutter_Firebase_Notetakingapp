@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:note_takingapp/appdatabase/Appdatabase.dart';
 import 'package:note_takingapp/screens/Addnote.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:note_takingapp/utilities/constants.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -70,12 +72,86 @@ class BodyStream extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
-          return ListView(
+          return GridView.count(
+            crossAxisCount: 2,
             children: snapshot.data!.docs.map((finalvalue) {
-              return ListTile(
-                title: Text((finalvalue['title']!= null)?finalvalue['title']:""),
-                subtitle: Text((finalvalue["Description"] != null)?finalvalue['Description']:""),
-              );
+              return Container(
+                  height: MediaQuery.of(context).size.height / 2,
+                  margin: EdgeInsets.all(5),
+                  child: Stack(children: [
+                    Card(
+                      color: Colors.amber,
+                      elevation: 5,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(top: 20, left: 10),
+                            child: Text(
+                              finalvalue['title'],
+                              style: Ktitlestyle,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(5),
+                            child: Divider(
+                              height: 2,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.all(5),
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.vertical,
+                                child: RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                          text: finalvalue['Description'],
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: 'DancingScript',
+                                              fontSize: 15.0,
+                                              fontWeight: FontWeight.w500)),
+                                    ],
+                                    text: "Description:     ",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.black,
+                                        fontFamily: 'WindSong',
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 10, left: 205),
+                      child: PopupMenuButton(
+                        itemBuilder: (context) {
+                          return List.generate(1, (index) {
+                            return PopupMenuItem(
+                              child: Text("Delete"),
+                              value: index,
+                            );
+                          });
+                        },
+                        child: Icon(
+                          Icons.more_vert,
+                          color: Colors.white,
+                          size: 30,
+                        ),
+                        onSelected: (value) {
+                          AppDatabase().deletenote(finalvalue.id);
+                        },
+                      ),
+                    ),
+                  ]));
             }).toList(),
           );
         });
