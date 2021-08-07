@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class GoogleSignin extends StatelessWidget {
-  const GoogleSignin({ Key? key }) : super(key: key);
+  const GoogleSignin({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,24 +17,24 @@ class GoogleSignin extends StatelessWidget {
             flex: 1,
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.lightGreen,
+                color: Colors.white,
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(5),
                     topLeft: Radius.circular(5)),
               ),
               alignment: Alignment.center,
-              child: Text('G',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold)),
+              child: Container(
+                height: 20,
+                width: 20,
+                child: Image.asset('images/google_logo.png'),
+              ),
             ),
           ),
           Expanded(
             flex: 5,
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.lightGreenAccent,
+                color: Colors.white,
                 borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(5),
                     topRight: Radius.circular(5)),
@@ -42,7 +42,7 @@ class GoogleSignin extends StatelessWidget {
               alignment: Alignment.center,
               child: Text('Sign in with Google',
                   style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontSize: 18,
                       fontWeight: FontWeight.bold)),
             ),

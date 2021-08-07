@@ -99,7 +99,44 @@ class Register extends StatelessWidget {
           ),
           Expanded(
             flex: 1,
-            child: GoogleSignin(),
+            child: GestureDetector(
+                onTap: () {
+                  MainAuth().SignupinwithGoogle().then((value) {
+                    if (value != null) {
+                      Get.to(() => HomePage());
+                      Get.snackbar(
+                        "Logged In",
+                        "Well come back! Succesfully Logged In!",
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: Colors.green,
+                        borderRadius: 10,
+                        margin: EdgeInsets.all(15),
+                        colorText: Colors.red,
+                        duration: Duration(seconds: 2),
+                        isDismissible: true,
+                        dismissDirection: SnackDismissDirection.HORIZONTAL,
+                        forwardAnimationCurve: Curves.easeOutBack,
+                      );
+                    } else {
+                      Get.to(() => Auth());
+
+                      Get.snackbar(
+                        "Faild",
+                        "Email or password incorrect!",
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: Colors.white,
+                        borderRadius: 10,
+                        margin: EdgeInsets.all(15),
+                        colorText: Colors.red,
+                        duration: Duration(seconds: 2),
+                        isDismissible: true,
+                        dismissDirection: SnackDismissDirection.HORIZONTAL,
+                        forwardAnimationCurve: Curves.easeOutBack,
+                      );
+                    }
+                  });
+                },
+                child: GoogleSignin()),
           ),
           Expanded(
             flex: 1,
