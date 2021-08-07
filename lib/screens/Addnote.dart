@@ -3,6 +3,9 @@ import 'package:get/get_core/get_core.dart';
 import 'package:note_takingapp/appdatabase/Appdatabase.dart';
 import 'package:get/get.dart';
 import 'package:note_takingapp/screens/Home.dart';
+import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:note_takingapp/appstate/Appstate.dart';
 
 class AddNote extends StatelessWidget {
   const AddNote({Key? key}) : super(key: key);
@@ -15,7 +18,10 @@ class AddNote extends StatelessWidget {
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
       ),
-      body: Body(),
+      body: ChangeNotifierProvider<DatePickerstate>(
+        create: (_) => DatePickerstate(),
+        child: Body(),
+      ),
     );
   }
 }
@@ -27,6 +33,8 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var appstate = Provider.of<DatePickerstate>(context);
+
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -45,11 +53,12 @@ class Body extends StatelessWidget {
                 Expanded(
                   flex: 4,
                   child: TextField(
+                    
                     controller: controller1,
                     autofocus: false,
                     style: TextStyle(color: Colors.black),
                     decoration: InputDecoration(
-                      fillColor: Colors.grey,
+                      fillColor: Colors.lightBlueAccent,
                       filled: true,
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.white),
@@ -88,8 +97,8 @@ class Body extends StatelessWidget {
                     style: TextStyle(color: Colors.black),
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 20.0),
-                      fillColor: Colors.grey,
+                          vertical: 40.0, horizontal: 10.0),
+                      fillColor: Colors.lightBlueAccent,
                       filled: true,
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.white),
@@ -103,10 +112,18 @@ class Body extends StatelessWidget {
               ],
             ),
           ),
+          Expanded(
+            child: Container(
+              child: SfDateRangePicker(
+                onSelectionChanged: appstate.onselectedChange,
+              ),
+            ),
+          ),
           Container(
               child: ElevatedButton(
             onPressed: () {
-              AppDatabase().addNote(controller1.text, controller2.text);
+              AppDatabase().addNote(
+                  controller1.text, controller2.text, appstate.selecteddate);
               Get.to(() => HomePage());
               Get.snackbar(
                 "Added",

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_takingapp/screens/Auth.dart';
 import 'package:note_takingapp/screens/Home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: Auth(),
     );
   }
 }

@@ -5,7 +5,12 @@ import 'package:note_takingapp/screens/Addnote.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:note_takingapp/screens/Auth.dart';
 import 'package:note_takingapp/utilities/constants.dart';
+import 'package:intl/intl.dart';
+import 'dart:core';
+
+import 'package:note_takingapp/widgets/Login.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -33,19 +38,66 @@ class _HomePageState extends State<HomePage> {
           elevation: 2,
           actions: [
             Container(
-              margin: EdgeInsets.only(right: 20),
-              child: CircleAvatar(
-                backgroundColor: Colors.black54,
+              margin: EdgeInsets.only(top: 10, left: 205),
+              child: PopupMenuButton(
+                itemBuilder: (context) {
+                  return List.generate(1, (index) {
+                    return PopupMenuItem(
+                      child: Text("Logout"),
+                      value: index,
+                    );
+                  });
+                },
                 child: Icon(
                   Icons.person,
-                  color: Colors.white,
-                  size: 20,
+                  color: Colors.black,
+                  size: 30,
                 ),
+                onSelected: (value) {
+                  FirebaseAuth.instance.signOut();
+                  Get.to(() => Auth());
+                },
               ),
             ),
           ],
         ),
-        drawer: Drawer(),
+        drawer: Drawer(
+            child: ListView(children: [
+          DrawerHeader(
+            decoration: BoxDecoration(color: Colors.deepPurpleAccent),
+            padding: EdgeInsets.zero,
+            child: Stack(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 130, left: 20),
+                  child: Text(
+                    "se.hailemariam.fikadie@gmail.com",
+                    style: TextStyle(color: Colors.black, fontSize: 15),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 90, left: 20),
+                  child: Text(
+                    "Eharry",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'pacifico',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 30, left: 20),
+                  child: CircleAvatar(
+                    radius: 30,
+                    backgroundImage: NetworkImage(
+                        "https://media-exp1.licdn.com/dms/image/C4E03AQGlC95Zri6GaA/profile-displayphoto-shrink_800_800/0/1574148998530?e=1632960000&v=beta&t=Su5ndfMs12vGrMoL95_6DiKTFHjTXQyZpJ6pMEmEYU8"),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ])),
         body: BodyStream(),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.black87,
@@ -65,7 +117,10 @@ class BodyStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('notes').snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection('notes')
+            .orderBy('time')
+            .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
             return Center(
@@ -74,7 +129,9 @@ class BodyStream extends StatelessWidget {
           }
           return GridView.count(
             crossAxisCount: 2,
-            children: snapshot.data!.docs.map((finalvalue) {
+            children: snapshot.data!.docs.reversed.map((finalvalue) {
+              var ts = finalvalue['time'];
+              DateTime timevalue = ts.toDate();
               return Container(
                   height: MediaQuery.of(context).size.height / 2,
                   margin: EdgeInsets.all(5),
@@ -87,11 +144,25 @@ class BodyStream extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(top: 20, left: 10),
-                            child: Text(
-                              finalvalue['title'],
-                              style: Ktitlestyle,
-                            ),
+                            padding: EdgeInsets.only(top: 20, left: 1),
+                            child: Column(children: [
+                              Text(
+                                finalvalue['title'],
+                                style: Ktitlestyle,
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(left: 40),
+                                child: Text(timevalue.toString(),
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: 'DancingScript-Regular',
+                                        fontSize: 15.0,
+                                        fontWeight: FontWeight.w500)),
+                              )
+                            ]),
                           ),
                           Padding(
                             padding: EdgeInsets.all(5),
@@ -111,16 +182,16 @@ class BodyStream extends StatelessWidget {
                                       TextSpan(
                                           text: finalvalue['Description'],
                                           style: TextStyle(
-                                              color: Colors.white,
-                                              fontFamily: 'DancingScript',
-                                              fontSize: 15.0,
-                                              fontWeight: FontWeight.w500)),
+                                            color: Colors.white,
+                                            fontFamily: 'DancingScript-Regular',
+                                            fontSize: 20.0,
+                                          ))
                                     ],
                                     text: "Description:     ",
                                     style: TextStyle(
-                                        fontSize: 15,
+                                        fontSize: 25,
                                         color: Colors.black,
-                                        fontFamily: 'WindSong',
+                                        fontFamily: 'Lobster',
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ),
