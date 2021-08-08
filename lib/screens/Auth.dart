@@ -12,7 +12,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:note_takingapp/auth/Mainauth.dart';
 import 'package:note_takingapp/auth/Usermodel.dart';
 
-
 const List<Color> colorsforgradient = [
   Colors.pink,
   Colors.pinkAccent,
@@ -29,44 +28,45 @@ class Auth extends StatelessWidget {
     if (MediaQuery.of(context).size.width < 600) {
       isSmall = true;
     }
-    return Column(
-      children: [
-        Expanded(
-          flex: 2,
-          child: Stack(children: [
-            ClipperBackground(),
-            Container(
-              margin: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width / 2,
-                  top: MediaQuery.of(context).size.height / 6),
-              height: 200,
-              child: Image(
-                image: NetworkImage(
-                    "https://i.pinimg.com/564x/a5/72/a8/a572a843aed1084c3027dba5e4f11ebc.jpg",
-                    scale: 0.1),
-              ),
-            ),
-          ]),
-        ),
-        Expanded(
-            flex: 4,
-            child: Container(
-              child: Obx(
-                () => Stack(
-                  children: [
-                    (isSmall == true)?(
-
-                    (appstate.changevalue.value.toString() == "login")
-                        ? Login()
-                        : Register()):Row(children: [
-                          Login(),
-                          Register()
-                        ],),
-                  ],
+    return SingleChildScrollView(
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height * 1.5,
+        child: Column(
+          children: [
+            Expanded(
+              flex: 3,
+              child: Stack(children: [
+                ClipperBackground(),
+                Container(
+                  margin: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width / 2,
+                      top: MediaQuery.of(context).size.height / 6),
+                  height: 200,
+                  child: Image(
+                    image: NetworkImage(
+                        "https://i.pinimg.com/564x/a5/72/a8/a572a843aed1084c3027dba5e4f11ebc.jpg",
+                        scale: 0.1),
+                  ),
                 ),
-              ),
-            )),
-      ],
+              ]),
+            ),
+            
+            Expanded(
+                flex: 4,
+                child: Container(
+                  child: Obx(
+                    () => Stack(
+                      children: [
+                        (appstate.changevalue.value.toString() == "login")
+                            ? Login()
+                            : Register()
+                      ],
+                    ),
+                  ),
+                )),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -122,6 +122,7 @@ class ClipperforTopView extends CustomClipper<Path> {
 
   @override
   bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
-    throw UnimplementedError();
+    // throw UnimplementedError();
+    return true;
   }
 }

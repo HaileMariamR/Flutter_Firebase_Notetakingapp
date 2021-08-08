@@ -38,6 +38,7 @@ class Body extends StatelessWidget {
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
             padding: EdgeInsets.all(10),
@@ -113,35 +114,40 @@ class Body extends StatelessWidget {
             ),
           ),
           Expanded(
+            flex: 4,
             child: Container(
               child: SfDateRangePicker(
                 onSelectionChanged: appstate.onselectedChange,
               ),
             ),
           ),
-          Container(
-              child: ElevatedButton(
-            onPressed: () {
-              AppDatabase().addNote(
-                  controller1.text, controller2.text, appstate.selecteddate);
-              Get.to(() => HomePage());
-              Get.snackbar(
-                "Added",
-                "Sucessfully added your note!",
-                icon: Icon(Icons.note, color: Colors.white),
-                snackPosition: SnackPosition.BOTTOM,
-                backgroundColor: Colors.green,
-                borderRadius: 10,
-                margin: EdgeInsets.all(15),
-                colorText: Colors.white,
-                duration: Duration(seconds: 2),
-                isDismissible: true,
-                dismissDirection: SnackDismissDirection.HORIZONTAL,
-                forwardAnimationCurve: Curves.easeOutBack,
-              );
-            },
-            child: Text("Add Note"),
-          ))
+          Expanded(
+            flex: 1,
+            child: Container(
+              margin: EdgeInsets.symmetric(vertical: 20,horizontal: 50),
+                child: ElevatedButton(
+              onPressed: () {
+                AppDatabase().addNote(
+                    controller1.text, controller2.text, appstate.selecteddate);
+                Get.to(() => HomePage());
+                Get.snackbar(
+                  "Added",
+                  "Sucessfully added your note!",
+                  icon: Icon(Icons.note, color: Colors.white),
+                  snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: Colors.green,
+                  borderRadius: 10,
+                  margin: EdgeInsets.all(15),
+                  colorText: Colors.white,
+                  duration: Duration(seconds: 2),
+                  isDismissible: true,
+                  dismissDirection: SnackDismissDirection.HORIZONTAL,
+                  forwardAnimationCurve: Curves.easeOutBack,
+                );
+              },
+              child: Text("Add Note"),
+            )),
+          )
         ],
       ),
     );

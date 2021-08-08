@@ -13,6 +13,9 @@ class MainAuth {
       final User = (await _firebaseAuth.createUserWithEmailAndPassword(
               email: emailInput, password: passwordInput))
           .user;
+      if (User != null) {
+        await User.sendEmailVerification();
+      }
       return Usermodel(email: User!.email);
     } catch (e) {}
   }
@@ -24,7 +27,9 @@ class MainAuth {
               email: emailInput, password: passwordInput))
           .user;
       return Usermodel(email: User!.email);
-    } catch (e) {}
+    } catch (e) {
+      
+    }
   }
 
   Future<Usermodel?> SignupinwithGoogle() async {

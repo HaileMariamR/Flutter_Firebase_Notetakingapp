@@ -19,12 +19,12 @@ class CustomTextField extends StatelessWidget {
             height: 5,
           ),
           TextField(
-            controller: textEditingController,
+              controller: textEditingController,
               decoration: InputDecoration(
-            border: InputBorder.none,
-            fillColor: Color(0xfff3f3f4),
-            filled: true,
-          ))
+                border: InputBorder.none,
+                fillColor: Color(0xfff3f3f4),
+                filled: true,
+              ))
         ],
       ),
     );

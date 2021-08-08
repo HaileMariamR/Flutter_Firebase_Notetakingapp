@@ -17,36 +17,34 @@ class Login extends StatelessWidget {
   Login({Key? key}) : super(key: key);
   var con1 = TextEditingController();
   var con2 = TextEditingController();
-  var con3 = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     AuthUiState appstate = Get.find();
+
     return Material(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Expanded(
-            flex: 2,
-            child: CustomTextField(
-              textEditingController: con1,
-              title: "Email Address",
-            ),
-          ),
+              flex: 2,
+              child: CustomTextField(
+                textEditingController: appstate.emailController,
+                title: "Email",
+              )),
           Expanded(
-            flex: 2,
-            child: CustomTextField(
-              textEditingController: con2,
-              title: "Password",
-            ),
-          ),
+              flex: 2,
+              child: CustomTextField(
+                textEditingController: appstate.passwordController,
+                title: "Password",
+              )),
           Expanded(
               flex: 1,
               child: GestureDetector(
                 onTap: () async {
                   await MainAuth()
-                      .SigninwithEmail(con1.text, con2.text)
+                      .SigninwithEmail(appstate.emailController.text,appstate.passwordController.text)
                       .then((value) {
                     if (value != null) {
                       Get.to(() => HomePage());

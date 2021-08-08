@@ -3,6 +3,7 @@ import 'package:note_takingapp/auth/Mainauth.dart';
 import 'package:note_takingapp/screens/Auth.dart';
 import 'package:note_takingapp/screens/Home.dart';
 import 'package:note_takingapp/widgets/GoogleSignin.dart';
+import 'package:note_takingapp/widgets/Login.dart';
 import 'package:note_takingapp/widgets/createorloginlable.dart';
 import 'CustomTextField.dart';
 import 'Submitbtn.dart';
@@ -28,60 +29,41 @@ class Register extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Expanded(
-            flex: 2,
-            child: CustomTextField(
-              textEditingController: controller1,
-              title: "Email Address",
-            ),
-          ),
+              flex: 2,
+              child: CustomTextField(
+                textEditingController: appstate.emailController,
+                title: "Email",
+              )),
           Expanded(
-            flex: 2,
-            child: CustomTextField(
-              textEditingController: controller2,
-              title: "Password",
-            ),
-          ),
+              flex: 2,
+              child: CustomTextField(
+                textEditingController: appstate.passwordController,
+                title: "Password",
+              )),
           Expanded(
-            flex: 2,
-            child: CustomTextField(
-              textEditingController: controller3,
-              title: "Confirm Password",
-            ),
-          ),
+              flex: 2,
+              child: CustomTextField(
+                textEditingController: appstate.confirmPasswordController,
+                title: "Confirm",
+              )),
           Expanded(
               flex: 1,
               child: GestureDetector(
                 onTap: () async {
                   await MainAuth()
-                      .SignupwithEmail(controller1.text, controller2.text)
+                      .SignupwithEmail(appstate.emailController.text, appstate.passwordController.text)
                       .then((value) {
                     if (value != null) {
-                      Get.to(() => HomePage());
-                      Get.snackbar(
-                        "Registered",
-                        "Well come! Succesfully Registered!",
-                        snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: Colors.green,
-                        borderRadius: 10,
-                        margin: EdgeInsets.all(15),
-                        colorText: Colors.red,
-                        duration: Duration(seconds: 2),
-                        isDismissible: true,
-                        dismissDirection: SnackDismissDirection.HORIZONTAL,
-                        forwardAnimationCurve: Curves.easeOutBack,
-                      );
-                    } else {
                       Get.to(() => Auth());
-
                       Get.snackbar(
-                        "Faild",
-                        "Email already taken",
+                        "Check Your Email",
+                        "You have just recived an email Verification!",
                         snackPosition: SnackPosition.BOTTOM,
                         backgroundColor: Colors.white,
                         borderRadius: 10,
                         margin: EdgeInsets.all(15),
                         colorText: Colors.red,
-                        duration: Duration(seconds: 2),
+                        duration: Duration(seconds: 10),
                         isDismissible: true,
                         dismissDirection: SnackDismissDirection.HORIZONTAL,
                         forwardAnimationCurve: Curves.easeOutBack,

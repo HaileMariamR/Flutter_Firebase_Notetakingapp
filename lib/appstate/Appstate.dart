@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,6 +17,9 @@ class DatePickerstate extends ChangeNotifier {
 
 class AuthUiState extends GetxController {
   var changevalue = "login".obs;
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
 
   @override
   void onInit() {
@@ -28,3 +32,5 @@ class AuthUiState extends GetxController {
     changevalue.value = input!;
   }
 }
+
+class CustomTextEditingController extends GetxController {}
